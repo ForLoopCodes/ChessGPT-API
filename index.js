@@ -1,7 +1,6 @@
 // express.js
 const express = require("express");
 const app = express();
-const port = 3000;
 
 app.use(express.json());
 const jsChessEngine = require("js-chess-engine");
@@ -20,6 +19,7 @@ app.post("/move", (req, res) => {
   const { from, to } = req.body;
   game.move(from, to);
   game.aiMove(3);
+  //
   console.log("player: " + from + to);
   // get the first move in the last history
   res.send(
@@ -34,6 +34,6 @@ app.post("/move", (req, res) => {
   );
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Listening at http://localhost:${process.env.PORT || 3000}`);
 });
