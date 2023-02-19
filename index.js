@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 const jsChessEngine = require("js-chess-engine");
 
-const game = new jsChessEngine.Game();
+let game = new jsChessEngine.Game();
 
 const reset = () => {
   game = new jsChessEngine.Game();
@@ -13,7 +13,7 @@ const reset = () => {
 
 app.get("/", (req, res) => {
   res.send(
-    "ChessGPT API, ChessGPT is a chess engine that uses AI to play chess. Make a move by sending a post request to /move. Reset the game by sending a post request to /reset. Get the current board by sending a get request to /board."
+    "ChessGPT API, ChessGPT is a chess engine that uses AI to play chess. Make a move by sending a post request to /move. Reset the game by sending a post request to /reset. Get the current fen by sending a get request to /fen."
   );
 });
 
@@ -32,12 +32,12 @@ app.post("/move", (req, res) => {
     game.getHistory().reverse()[0].from.toLowerCase() +
       game.getHistory()[0].to.toLowerCase()
   );
-  game.getHistory().reverse();
   console.log(
     "ai: " +
       game.getHistory()[0].from.toLowerCase() +
       game.getHistory()[0].to.toLowerCase()
   );
+  game.getHistory().reverse();
 });
 
 app.post("/reset", (req, res) => {
@@ -45,8 +45,8 @@ app.post("/reset", (req, res) => {
   res.send("reset");
 });
 
-app.get("/board", (req, res) => {
-  res.send(game.getBoard());
+app.get("/fen", (req, res) => {
+  res.send(game.exportFEN());
 });
 
 app.listen(process.env.PORT || 3000, () => {
