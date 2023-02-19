@@ -7,8 +7,14 @@ const jsChessEngine = require("js-chess-engine");
 
 const game = new jsChessEngine.Game();
 
+const reset = () => {
+  game = new jsChessEngine.Game();
+};
+
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send(
+    "ChessGPT API, ChessGPT is a chess engine that uses AI to play chess. Make a move by sending a post request to /move. Reset the game by sending a post request to /reset. Get the current board by sending a get request to /board."
+  );
 });
 
 app.post("/move", (req, res) => {
@@ -32,6 +38,15 @@ app.post("/move", (req, res) => {
       game.getHistory()[0].from.toLowerCase() +
       game.getHistory()[0].to.toLowerCase()
   );
+});
+
+app.post("/reset", (req, res) => {
+  reset();
+  res.send("reset");
+});
+
+app.get("/board", (req, res) => {
+  res.send(game.getBoard());
 });
 
 app.listen(process.env.PORT || 3000, () => {

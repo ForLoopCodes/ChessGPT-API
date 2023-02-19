@@ -2,6 +2,7 @@
   "scripts": {
     "start": "node index.js"
   },
+  "main": "index.js",
   "dependencies": {
     "express.js": "^1.0.0",
     "js-chess-engine": "^1.0.2"
